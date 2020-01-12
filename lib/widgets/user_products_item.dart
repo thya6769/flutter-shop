@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/providers/products.dart';
+import 'package:flutter_complete_guide/screens/edit_product_screen.dart';
+import 'package:provider/provider.dart';
 
 class UserProductsItem extends StatelessWidget {
-  final String title;
-  final String imageUrl;
+  final String id;
 
-  UserProductsItem({this.title, this.imageUrl});
+  UserProductsItem({this.id});
 
   @override
   Widget build(BuildContext context) {
+    final products = Provider.of<Products>(context);
+    final product = products.findById(id);
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(imageUrl),
+        backgroundImage: NetworkImage(product.imageUrl),
       ),
-      title: Text(title),
+      title: Text(product.title),
       trailing: Container(
         width: 100,
         child: Row(
@@ -20,12 +24,17 @@ class UserProductsItem extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.edit),
               color: Theme.of(context).primaryColor,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(EditProductScreen.routeName,
+                    arguments: product.id);
+              },
             ),
             IconButton(
               icon: Icon(Icons.delete),
               color: Theme.of(context).errorColor,
-              onPressed: () {},
+              onPressed: () {
+                products.deleteById(id);
+              },
             )
           ],
         ),

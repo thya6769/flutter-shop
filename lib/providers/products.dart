@@ -47,17 +47,38 @@ class Products with ChangeNotifier {
 
 //  bool get showFavouritesOnly => _showFavouritesOnly;
 
-  void addProduct(product) {
+  void addProduct(Product product) {
 //    _items.add(product);
+
+    _items.add(Product(
+        id: DateTime.now().toString(),
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl));
+
     notifyListeners();
   }
 
+
+  void updateProduct(id, Product product) {
+    final i = _items.indexWhere((p) => p.id == id);
+
+    _items[i] = product;
+
+    notifyListeners();
+  }
 //  void toggleFavouriteOnly(bool value) {
 //    _showFavouritesOnly = value;
 //    notifyListeners();
 //  }
 
   Product findById(id) => items.firstWhere((prod) => prod.id == id);
+
+  void deleteById(id) {
+    _items.removeWhere((prod) => prod.id == id);
+    notifyListeners();
+  }
 
   List<Product> findItemsByFavourite(showFavouritesOnly) =>
       items.where((i) => i.isFavourite == showFavouritesOnly).toList();
