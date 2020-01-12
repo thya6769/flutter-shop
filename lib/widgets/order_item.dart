@@ -20,6 +20,10 @@ class OrderItem extends StatelessWidget {
               ),
               subtitle:
                   Text(DateFormat('dd/MM/yyyy HH:mm').format(order.dateTime)),
+              trailing: IconButton(
+                icon: Icon(Icons.expand_more),
+                onPressed: () {},
+              ),
             ),
           ],
         ),
